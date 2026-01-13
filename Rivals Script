@@ -35,7 +35,7 @@ if not _G.aimbotscript then
 end
 if not _G.autoload then
 pcall(function()
-   queue_on_teleport('loadstring(game:HttpGet("https://raw.githubusercontent.com/men-cofing-roblox/scripts/refs/heads/main/CodeRivals.txt"))()')
+   queue_on_teleport('https://raw.githubusercontent.com/Karmelek2080/Rivals-Script-Karmelekkkk/refs/heads/main/Rivals%20Script"))()')
    end)
    _G.autoload = true
 end
