@@ -1,0 +1,1078 @@
+if not _G.runrivalscode then
+_G.runrivalscode = true
+else
+return
+end
+local sfriends,datafriends
+function loadfriendslist()
+sfriends,datafriends = pcall(function()
+   return readfile("mencofing/Rivalsfriendslist.txt")
+end)
+if not sfriends then
+   writefile("mencofing/Rivalsfriendslist.txt", "// you add name not display name and you can delete this comment if you want\n// and this not adding that People list is only info\n// so how add friend you add <username> and new line for new guy, thx! for reading.\nplayer123\n1x1x1x1")
+   datafriends = "// you add name not display name and you can delete this comment if you want\n// and this not adding that People list is only info\n// so how add friend you add <username> and new line for new guy, thx! for reading.\nplayer123\n1x1x1x1"
+end
+local temp = {}
+for line in datafriends:gmatch("[^\n]+") do
+    line = line:gsub("^%s*(.-)%s*$", "%1") -- trim spaces
+    if line ~= "" and not line:match("^//") then
+        table.insert(temp,line)
+    end
+end
+datafriends = temp
+end
+loadfriendslist()
+if not _G.aimbotscript then
+	local aimbot = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))()
+	ExunysDeveloperAimbot.Settings.Enabled = false
+   ExunysDeveloperAimbot.Settings.LockMode = 2
+   ExunysDeveloperAimbot.Blacklisted = {}
+   for _,friend in datafriends do
+   ExunysDeveloperAimbot.Blacklisted[#ExunysDeveloperAimbot.Blacklisted + 1] = friend
+   end
+	aimbot.Load()
+	_G.aimbotscript = true
+end
+if not _G.autoload then
+pcall(function()
+   queue_on_teleport('loadstring(game:HttpGet("https://raw.githubusercontent.com/men-cofing-roblox/scripts/refs/heads/main/CodeRivals.txt"))()')
+   end)
+   _G.autoload = true
+end
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Karmelekkkk | AutoLoad ON",
+   Icon = 0,
+    LoadingTitle = "Karmelekkkk Rivals",
+   LoadingSubtitle = "by Karmelekkkk",
+   ShowText = "Rivals",
+   Theme = "Default",
+
+   ToggleUIKeybind = "P",
+
+   DisableRayfieldPrompts = true,
+   DisableBuildWarnings = true,
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "mencofing",
+      FileName = "Rivals"
+   },
+
+   Discord = {
+      Enabled = false,
+      Invite = nil,
+      RememberJoins = true
+   },
+
+   KeySystem = true,
+   KeySettings = {
+      Title = "Key System",
+      Subtitle = "Menszysna",
+      Note = "KarmelekRivalss", 
+      FileName = "KeyRivals",
+      SaveKey = false,
+      GrabKeyFromSite = true,
+      Key = "KarmelekRivalss"
+   }
+})
+local CreatorTab = Window:CreateTab("Credits", 0)
+local CrosshairTab = Window:CreateTab("Crosshair", "crosshair")
+local FriendsTab = Window:CreateTab("Friends", "book-user")
+local AimbotTab = Window:CreateTab("Aimbot", "locate")
+local BindsTab = Window:CreateTab("Binds", "keyboard")
+local RageTab = Window:CreateTab("Rage", "angry")
+local AutoTab = Window:CreateTab("Auto", "refresh-ccw")
+local ESPTab = Window:CreateTab("ESP", "ratio")
+local MiscTab = Window:CreateTab("Misc", 0)
+local changerusername = false
+local changerusernametext = "Unknown_Player"
+local setting = {
+	["Enabled"] = false,
+	["Visible"] = true,
+   ["Friends Check"] = true,
+	["Thickness"] = 2,
+	["Rainbow Speed"] = 1,
+	["Color"] = Color3.new(255, 255, 255),
+	["Rainbow"] = false,
+	["Enabled Nick"] = true,
+	["Nick Color"] = Color3.new(255, 255, 255),
+	["Nick Rainbow"] = false,
+   ["Enabled Tracer"] = false,
+   ["Tracer Color"] = Color3.new(255, 255, 255),
+   ["Tracer Rainbow"] = false,
+   ["Tracer Thickness"] = 2,
+   ["Tracer Position"] = "Bottomcenter"
+}
+
+if not _G.sev then
+_G.sev = 0
+end
+if not _G.sevri then
+_G.sevri = 0
+end
+CreatorTab:CreateSection("By Karmelekkkk")
+
+CreatorTab:CreateSection("Aimbot is in")
+
+local AimbotToggle = AimbotTab:CreateToggle({
+   Name = "Aimbot (Beta)",
+   CurrentValue = false,
+   Flag = "Aimbot",
+   Callback = function(Value)
+   ExunysDeveloperAimbot.Settings.Enabled = Value
+   end,
+})
+AimbotTab:CreateSlider({
+   Name = "Sensitivity",
+   Range = {0.0, 25},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 0.5,
+   Flag = "Sensitivity",
+   Callback = function(Value)
+   _G.sev = Value
+   end,
+})
+AimbotTab:CreateSlider({
+   Name = "Sensitivity (Rivals)",
+   Range = {0.05, 4},
+   Increment = 0.05,
+   Suffix = "",
+   CurrentValue = 1,
+   Flag = "SensitivityRivals",
+   Callback = function(Value)
+   _G.sevri = Value
+   end,
+})
+AimbotTab:CreateToggle({
+   Name = "Alive Check",
+   CurrentValue = true,
+   Flag = "AliveCheck",
+   Callback = function(Value)
+   ExunysDeveloperAimbot.Settings.AliveCheck = Value
+   end,
+})
+AimbotTab:CreateToggle({
+   Name = "Friends Check",
+   CurrentValue = true,
+   Flag = "ESPFriendsCheck",
+   Callback = function(Value)
+   ExunysDeveloperAimbot.Blacklisted = {}
+   if value then
+   for _,friend in datafriends do
+   ExunysDeveloperAimbot.Blacklisted[#ExunysDeveloperAimbot.Blacklisted + 1] = friend
+   end
+   end
+   end,
+})
+AimbotTab:CreateToggle({
+   Name = "Wall Check",
+   CurrentValue = false,
+   Flag = "WallCheck",
+   Callback = function(Value)
+   ExunysDeveloperAimbot.Settings.WallCheck = Value
+   end,
+})
+AimbotTab:CreateToggle({
+   Name = "Fov Visible",
+   CurrentValue = true,
+   Flag = "FovVisible",
+   Callback = function(Value)
+   ExunysDeveloperAimbot.FOVSettings.Visible = Value
+   end,
+})
+AimbotTab:CreateDropdown({
+   Name = "LockPart",
+   Options = {"Head","HumanoidRootPart"},
+   CurrentOption = {"Head"},
+   MultipleOptions = false,
+   Flag = "LockPart", 
+   Callback = function(Options)
+   ExunysDeveloperAimbot.Settings.LockPart = Options[1]
+   end,
+})
+AimbotTab:CreateSlider({
+   Name = "FOV Radius",
+   Range = {25, 500},
+   Increment = 1,
+   Suffix = "fov",
+   CurrentValue = 90,
+   Flag = "FovRadius",
+   Callback = function(Value)
+	ExunysDeveloperAimbot.FOVSettings.Radius = Value
+   end,
+})
+AimbotTab:CreateSlider({
+   Name = "Thickness",
+   Range = {1, 25},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 1,
+   Flag = "Thickness",
+   Callback = function(Value)
+	ExunysDeveloperAimbot.FOVSettings.Thickness = Value
+   end,
+})
+
+AimbotTab:CreateColorPicker({
+    Name = "Color",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "Color",
+    Callback = function(Value)
+        ExunysDeveloperAimbot.FOVSettings.Color = Value
+    end
+})
+AimbotTab:CreateColorPicker({
+    Name = "Outline Color",
+    Color = Color3.fromRGB(0,0,0),
+    Flag = "OutlineColor",
+    Callback = function(Value)
+        ExunysDeveloperAimbot.FOVSettings.OutlineColor = Value
+    end
+})
+AimbotTab:CreateColorPicker({
+    Name = "Color On detect",
+    Color = Color3.fromRGB(255,150,150),
+    Flag = "ColorOndetect",
+    Callback = function(Value)
+        ExunysDeveloperAimbot.FOVSettings.LockedColor = Value
+    end
+})
+AimbotTab:CreateToggle({
+   Name = "Rainbow",
+   CurrentValue = false,
+   Flag = "Rainbow", 
+   Callback = function(Value)
+   ExunysDeveloperAimbot.FOVSettings.RainbowColor = Value
+   end,
+})
+AimbotTab:CreateSlider({
+   Name = "Rainbow Speed",
+   Range = {0.1, 25},
+   Increment = 0.1,
+   Suffix = "Speed",
+   CurrentValue = 1,
+   Flag = "RainbowSpeed", 
+   Callback = function(Value)
+	ExunysDeveloperAimbot.Settings.RainbowSpeed = (25*10)-Value*10
+   end,
+})
+game:GetService("RunService").RenderStepped:Connect(function(dt)
+   pcall(function()
+   local settingrobloxcameraspeed = UserSettings().GameSettings.MouseSensitivity
+   ExunysDeveloperAimbot.Settings.Sensitivity2 = (settingrobloxcameraspeed*(_G.sevri/3)*4.5)+(0.5+_G.sev)
+   end)
+end)
+local ESPToggle = ESPTab:CreateToggle({
+   Name = "Enabled (Beta)",
+   CurrentValue = false,
+   Flag = "ESPEnabled", 
+   Callback = function(Value)
+   setting["Enabled"] = Value
+   end,
+})
+ESPTab:CreateToggle({
+   Name = "Visible",
+   CurrentValue = true,
+   Flag = "ESPVisible", 
+   Callback = function(Value)
+   setting["Visible"] = Value
+   end,
+})
+ESPTab:CreateToggle({
+   Name = "Friends Check",
+   CurrentValue = true,
+   Flag = "ESPFriendsCheck", 
+   Callback = function(Value)
+   setting["Friends Check"] = Value
+   end,
+})
+ESPTab:CreateSlider({
+   Name = "Rainbow Speed",
+   Range = {1, 25},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 1,
+   Flag = "ESPSpeedRainBow", 
+   Callback = function(Value)
+	setting["Rainbow Speed"] = Value
+   end,
+})
+ESPTab:CreateToggle({
+   Name = "Rainbow",
+   CurrentValue = false,
+   Flag = "ESPRainbow", 
+   Callback = function(Value)
+   setting["Rainbow"] = Value
+   end,
+})
+ESPTab:CreateToggle({
+   Name = "Enabled Nick",
+   CurrentValue = true,
+   Flag = "ESPEnabledNick", 
+   Callback = function(Value)
+   setting["Enabled Nick"] = Value
+   end,
+})
+ESPTab:CreateToggle({
+   Name = "Nick Rainbow",
+   CurrentValue = false,
+   Flag = "ESPNickRainbow", 
+   Callback = function(Value)
+   setting["Nick Rainbow"] = Value
+   end,
+})
+ESPTab:CreateSlider({
+   Name = "Thickness",
+   Range = {1, 50},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 2,
+   Flag = "ESPThickness", 
+   Callback = function(Value)
+	setting["Thickness"] = Value
+   end,
+})
+ESPTab:CreateToggle({
+   Name = "Enabled Tracers",
+   CurrentValue = false,
+   Flag = "ESPEnabledTracers", 
+   Callback = function(Value)
+   setting["Enabled Tracer"] = Value
+   end,
+})
+ESPTab:CreateToggle({
+   Name = "Tracers Rainbow",
+   CurrentValue = false,
+   Flag = "ESPTracersRainbow", 
+   Callback = function(Value)
+   setting["Tracer Rainbow"] = Value
+   end,
+})
+ESPTab:CreateSlider({
+   Name = "Tracers Thickness",
+   Range = {1, 50},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 2,
+   Flag = "ESPTracersThickness", 
+   Callback = function(Value)
+	setting["Tracer Thickness"] = Value
+   end,
+})
+ESPTab:CreateDropdown({
+   Name = "Tracers Position",
+   Options = {"Topleft","Topcenter","Topright","Centerleft","Centercenter","Centerright","Bottomleft","Bottomcenter","Bottomright"},
+   CurrentOption = {"Bottomcenter"},
+   MultipleOptions = false,
+   Flag = "ESPTracersPosition", 
+   Callback = function(Options)
+   setting["Tracer Position"] = Options[1]
+   end,
+})
+ESPTab:CreateColorPicker({
+    Name = "Color",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "ESPColor", 
+    Callback = function(Value)
+        setting["Color"] = Value
+    end
+})
+
+ESPTab:CreateColorPicker({
+    Name = "Nick Color",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "ESPNickColor", 
+    Callback = function(Value)
+        setting["Nick Color"] = Value
+    end
+})
+ESPTab:CreateColorPicker({
+    Name = "Tracers Color",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "ESPTracersColor", 
+    Callback = function(Value)
+        setting["Tracer Color"] = Value
+    end
+})
+local camera = workspace.CurrentCamera
+function espplayer(playertarget)
+	local camera = workspace.CurrentCamera
+
+while not playertarget.Character do
+	wait(0.1)
+end
+playertarget.Character:WaitForChild("HumanoidRootPart", math.huge)
+local screenPosition, onScreen = camera:WorldToViewportPoint(playertarget.Character.HumanoidRootPart.Position)
+
+local diance = 1/screenPosition.Z*55
+local enabled = setting["Enabled"]
+local rainbow = setting["Rainbow"]
+local nickrainbow = setting["Nick Rainbow"]
+local rainbowSpeed = setting["Rainbow Speed"]
+local tracerrainbow = setting["Tracer Rainbow"]
+local line = Drawing.new("Line")
+local draw = Drawing.new("Square")
+if rainbow then
+	draw.Color = Color3.fromHSV((tick() % rainbowSpeed) / rainbowSpeed, 1, 1)
+else
+	draw.Color = setting["Color"]
+end
+draw.Thickness = setting["Thickness"]
+draw.Size = Vector2.new(200+diance, 200+diance)
+draw.Position = Vector2.new(screenPosition.X, screenPosition.Y)
+draw.Visible = onScreen and enabled and setting["Visible"] and (playertarget.Character.Humanoid.Health >= 0)
+
+local text = Drawing.new("Text")
+text.Visible = onScreen and enabled and setting["Enabled Nick"] and (playertarget.Character.Humanoid.Health >= 0)
+text.Text = playertarget.Name
+text.Position = Vector2.new(screenPosition.X, screenPosition.Y)
+text.Size = (15*(1/#playertarget.Name * 3.75))*diance
+text.Center = true
+if nickrainbow then
+	text.Color = Color3.fromHSV((tick() % rainbowSpeed) / rainbowSpeed, 1, 1)
+else
+	text.Color = setting["Nick Color"]
+end
+local con = game:GetService("RunService").RenderStepped:Connect(function(dt)
+	if not playertarget then
+		return
+	end
+
+	if playertarget.Character and playertarget.Character:FindFirstChild("HumanoidRootPart") and playertarget.Character:FindFirstChild("Humanoid") then
+		local screenPosition, onScreen = camera:WorldToViewportPoint(playertarget.Character.HumanoidRootPart.Position)
+	local diance = (1/screenPosition.Z*55)*((1/camera.FieldOfView)*100)
+	local rainbow = setting["Rainbow"]
+local nickrainbow = setting["Nick Rainbow"]
+local rainbowSpeed = setting["Rainbow Speed"]
+local enabled123 = onScreen and not (screenPosition.Z >= 550) and setting["Enabled"] and (playertarget.Character.Humanoid.Health > 1) and (setting["Friends Check"] == false or (table.find(datafriends, playertarget.Name) ~= nil) ~= setting["Friends Check"]) and (workspace.CurrentCamera.CameraSubject.Parent ~= playertarget.Character)
+	if draw then
+   draw.Visible = enabled123 and setting["Visible"]
+		if draw.Visible then
+      if rainbow then
+	draw.Color = Color3.fromHSV((tick() % rainbowSpeed) / rainbowSpeed, 1, 1)
+else
+	draw.Color = setting["Color"]
+end
+draw.Thickness = setting["Thickness"]
+		draw.Size = Vector2.new(30*diance, 40*diance)
+		draw.Position = Vector2.new(screenPosition.X-(draw.Size.X/2), screenPosition.Y-(draw.Size.Y/2))
+      end
+	end
+	if text then
+   text.Visible = enabled123 and setting["Enabled Nick"]
+
+      if text.Visible then
+		if nickrainbow then
+	text.Color = Color3.fromHSV((tick() % rainbowSpeed) / rainbowSpeed, 1, 1)
+else
+	text.Color = setting["Nick Color"]
+end
+		text.Position = Vector2.new(screenPosition.X, screenPosition.Y)
+		text.Size = (15*(1/#playertarget.Name * 3.75))*diance
+      end
+	end
+   if line then
+   line.Visible = enabled123 and setting["Enabled Tracer"]
+
+   if line.Visible then
+if setting["Tracer Position"] == "Bottomcenter" then
+   line.From = Vector2.new(camera.ViewportSize.X/2,camera.ViewportSize.Y)
+elseif setting["Tracer Position"] == "Topleft" then
+   line.From = Vector2.new(0,0)
+elseif setting["Tracer Position"] == "Topcenter" then
+   line.From = Vector2.new(camera.ViewportSize.X/2,0)
+elseif setting["Tracer Position"] == "Topright" then
+   line.From = Vector2.new(camera.ViewportSize.X,0)
+elseif setting["Tracer Position"] == "Centerleft" then
+   line.From = Vector2.new(0,camera.ViewportSize.Y/2)
+elseif setting["Tracer Position"] == "Centercenter" then
+   line.From = Vector2.new(camera.ViewportSize.X/2,camera.ViewportSize.Y/2)
+elseif setting["Tracer Position"] == "Centerright" then
+   line.From = Vector2.new(camera.ViewportSize.X,camera.ViewportSize.Y/2)
+elseif setting["Tracer Position"] == "Bottomleft" then
+   line.From = Vector2.new(0,camera.ViewportSize.Y)
+elseif setting["Tracer Position"] == "Bottomright" then
+   line.From = Vector2.new(camera.ViewportSize.X,camera.ViewportSize.Y)
+end
+line.To = Vector2.new(screenPosition.X, screenPosition.Y)
+line.Thickness = setting["Tracer Thickness"]
+line.Transparency = 1
+if setting["Tracer Rainbow"] then
+	line.Color = Color3.fromHSV((tick() % rainbowSpeed) / rainbowSpeed, 1, 1)
+else
+	line.Color = setting["Tracer Color"]
+end end
+   end
+	end
+end)
+game:GetService("Players").PlayerRemoving:Connect(function(player)
+	if player.UserId == playertarget.UserId then
+		con:Disconnect()
+		draw:Remove()
+		text:Remove()
+      line:Remove()
+	end
+end)
+end
+
+for k, v in pairs(game:GetService("Players"):GetPlayers()) do
+	if v ~= game:GetService("Players").LocalPlayer then
+		task.spawn(function()
+			espplayer(v)
+		end)
+	end
+end
+
+game:GetService("Players").PlayerAdded:Connect(function(player)
+	task.spawn(function()
+		espplayer(player)
+	end)
+end)
+
+local setting2 = {
+	["Enabled"] = false,
+	["Thickness"] = 2.5,
+	["Long"] = 10,
+	["Color"] = Color3.fromRGB(255, 255, 255),
+	["Rainbow"] = false,
+	["Rainbow Speed"] = 3,
+	["Spin"] = false,
+	["Speed Spin"] = 1,
+	["Spaces"] = 5,
+	["Text Enabled"] = true,
+	["Text Color"] = Color3.fromRGB(255, 255, 255),
+	["Text Rainbow"] = false,
+	["Text Size"] = 15,
+	["Text Long"] = 15,
+}
+
+local cross1 = Drawing.new("Line")
+local cross2 = Drawing.new("Line")
+local cross3 = Drawing.new("Line")
+local cross4 = Drawing.new("Line")
+local text5 = Drawing.new("Text")
+local time = 0
+cross1.Thickness = setting2["Thickness"]
+cross1.Visible = setting2["Enabled"]
+if setting2["Rainbow"] then
+	cross1.Color = Color3.fromHSV((tick() % setting2["Rainbow Speed"]) / setting2["Rainbow Speed"], 1, 1)
+else
+	cross1.Color = setting2["Color"]
+end
+cross2.Thickness = setting2["Thickness"]
+cross2.Visible = setting2["Enabled"]
+if setting2["Rainbow"] then
+	cross2.Color = Color3.fromHSV((tick() % setting2["Rainbow Speed"]) / setting2["Rainbow Speed"], 1, 1)
+else
+	cross2.Color = setting2["Color"]
+end
+cross3.Thickness = setting2["Thickness"]
+cross3.Visible = setting2["Enabled"]
+if setting2["Rainbow"] then
+	cross3.Color = Color3.fromHSV((tick() % setting2["Rainbow Speed"]) / setting2["Rainbow Speed"], 1, 1)
+else
+	cross3.Color = setting2["Color"]
+end
+cross4.Thickness = setting2["Thickness"]
+cross4.Visible = setting2["Enabled"]
+if setting2["Rainbow"] then
+	cross4.Color = Color3.fromHSV((tick() % setting2["Rainbow Speed"]) / setting2["Rainbow Speed"], 1, 1)
+else
+	cross4.Color = setting2["Color"]
+end
+text5.Visible = setting2["Enabled"] and setting2["Text Enabled"]
+text5.Text = "dsc.gg/menszysna"
+text5.Size = setting2["Text Size"]
+text5.Center = true
+if setting2["Text Rainbow"] then
+	text5.Color = Color3.fromHSV((tick() % setting2["Rainbow Speed"]) / setting2["Rainbow Speed"], 1, 1)
+else
+	text5.Color = setting2["Text Color"]
+end
+
+local con = game:GetService("RunService").RenderStepped:Connect(function(dt)
+	if setting2["Spin"] then
+		time += dt*setting2["Speed Spin"]
+	else
+		time = 0
+	end
+	cross1.Thickness = setting2["Thickness"]
+cross1.Visible = setting2["Enabled"]
+if setting2["Rainbow"] then
+	cross1.Color = Color3.fromHSV((tick() % setting2["Rainbow Speed"]) / setting2["Rainbow Speed"], 1, 1)
+else
+	cross1.Color = setting2["Color"]
+end
+cross2.Thickness = setting2["Thickness"]
+cross2.Visible = setting2["Enabled"]
+if setting2["Rainbow"] then
+	cross2.Color = Color3.fromHSV((tick() % setting2["Rainbow Speed"]) / setting2["Rainbow Speed"], 1, 1)
+else
+	cross2.Color = setting2["Color"]
+end
+cross3.Thickness = setting2["Thickness"]
+cross3.Visible = setting2["Enabled"]
+if setting2["Rainbow"] then
+	cross3.Color = Color3.fromHSV((tick() % setting2["Rainbow Speed"]) / setting2["Rainbow Speed"], 1, 1)
+else
+	cross3.Color = setting2["Color"]
+end
+cross4.Thickness = setting2["Thickness"]
+cross4.Visible = setting2["Enabled"]
+if setting2["Rainbow"] then
+	cross4.Color = Color3.fromHSV((tick() % setting2["Rainbow Speed"]) / setting2["Rainbow Speed"], 1, 1)
+else
+	cross4.Color = setting2["Color"]
+end
+text5.Visible = setting2["Enabled"] and setting2["Text Enabled"]
+text5.Size = setting2["Text Size"]
+text5.Center = true
+if setting2["Text Rainbow"] then
+	text5.Color = Color3.fromHSV((tick() % setting2["Rainbow Speed"]) / setting2["Rainbow Speed"], 1, 1)
+else
+	text5.Color = setting2["Text Color"]
+end
+	cross1.From = Vector2.new((math.sin(time)*setting2["Spaces"])+camera.ViewportSize.X/2, (math.cos(time)*setting2["Spaces"])+camera.ViewportSize.Y/2)
+	cross1.To = cross1.From+Vector2.new((math.sin(time)*setting2["Long"]), (math.cos(time)*setting2["Long"]))
+	cross2.From = Vector2.new((math.sin(time + math.pi)*setting2["Spaces"])+camera.ViewportSize.X/2, (math.cos(time + math.pi)*setting2["Spaces"])+camera.ViewportSize.Y/2)
+	cross2.To = cross2.From+Vector2.new((math.sin(time + math.pi)*setting2["Long"]), (math.cos(time + math.pi)*setting2["Long"]))
+	cross3.From = Vector2.new((math.sin(time + (math.pi/2))*setting2["Spaces"])+camera.ViewportSize.X/2, (math.cos(time + (math.pi/2))*setting2["Spaces"])+camera.ViewportSize.Y/2)
+	cross3.To = cross3.From+Vector2.new((math.sin(time + (math.pi/2))*setting2["Long"]), (math.cos(time + (math.pi/2))*setting2["Long"]))
+	cross4.From = Vector2.new((math.sin(time + (math.pi*1.5))*setting2["Spaces"])+camera.ViewportSize.X/2, (math.cos(time + (math.pi*1.5))*setting2["Spaces"])+camera.ViewportSize.Y/2)
+	cross4.To = cross4.From+Vector2.new((math.sin(time + (math.pi*1.5))*setting2["Long"]), (math.cos(time + (math.pi*1.5))*setting2["Long"]))
+	text5.Position = Vector2.new(camera.ViewportSize.X/2, camera.ViewportSize.Y/2+setting2["Text Long"])
+end)
+
+local CrosshairToggle = CrosshairTab:CreateToggle({
+   Name = "Enabled",
+   CurrentValue = false,
+   Flag = "CROSSHAIREnabled", 
+   Callback = function(Value)
+	setting2["Enabled"] = Value
+   end,
+})
+CrosshairTab:CreateSlider({
+   Name = "Thickness",
+   Range = {1, 50},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 2.5,
+   Flag = "CROSSHAIRThickness", 
+   Callback = function(Value)
+	setting2["Thickness"] = Value
+   end,
+})
+CrosshairTab:CreateSlider({
+   Name = "Length",
+   Range = {1, 50},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 10,
+   Flag = "CROSSHAIRLength", 
+   Callback = function(Value)
+	setting2["Long"] = Value
+   end,
+})
+CrosshairTab:CreateColorPicker({
+    Name = "Color",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "CROSSHAIRColor", 
+    Callback = function(Value)
+    setting2["Color"] = Value
+    end
+})
+CrosshairTab:CreateToggle({
+   Name = "Rainbow",
+   CurrentValue = false,
+   Flag = "CROSSHAIRRainbow", 
+   Callback = function(Value)
+	setting2["Rainbow"] = Value
+   end,
+})
+CrosshairTab:CreateSlider({
+   Name = "Rainbow Speed",
+   Range = {1, 25},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 3,
+   Flag = "CROSSHAIRRainbowSpeed", 
+   Callback = function(Value)
+	setting2["Rainbow Speed"] = Value
+   end,
+})
+CrosshairTab:CreateToggle({
+   Name = "Spin",
+   CurrentValue = false,
+   Flag = "CROSSHAIRSpin", 
+   Callback = function(Value)
+	setting2["Spin"] = Value
+   end,
+})
+
+CrosshairTab:CreateSlider({
+   Name = "Speed Spin",
+   Range = {1, 25},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 1,
+   Flag = "CROSSHAIRSpinSpeed", 
+   Callback = function(Value)
+	setting2["Speed Spin"] = Value
+   end,
+})
+
+CrosshairTab:CreateSlider({
+   Name = "Spaces",
+   Range = {0, 50},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 5,
+   Flag = "CROSSHAIRSpaces", 
+   Callback = function(Value)
+	setting2["Spaces"] = Value-1
+   end,
+})
+CrosshairTab:CreateToggle({
+   Name = "Watermark",
+   CurrentValue = true,
+   Flag = "CROSSHAIRWatermark", 
+   Callback = function(Value)
+	setting2["Text Enabled"] = Value
+   end,
+})
+CrosshairTab:CreateColorPicker({
+    Name = "Watermark Color",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "CROSSHAIRWatermarkColor", 
+    Callback = function(Value)
+    setting2["Text Color"] = Value
+    end
+})
+CrosshairTab:CreateToggle({
+   Name = "Watermark Rainbow",
+   CurrentValue = false,
+   Flag = "CROSSHAIRWatermarkRainbow", 
+   Callback = function(Value)
+	setting2["Text Rainbow"] = Value
+   end,
+})
+CrosshairTab:CreateSlider({
+   Name = "Watermark Size",
+   Range = {0, 150},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 15,
+   Flag = "CROSSHAIRWatermarkSize", 
+   Callback = function(Value)
+	setting2["Text Size"] = Value
+   end,
+})
+CrosshairTab:CreateSlider({
+   Name = "Watermark Distance",
+   Range = {0, 150},
+   Increment = 0.1,
+   Suffix = "",
+   CurrentValue = 15,
+   Flag = "CROSSHAIRWatermarkDistance", 
+   Callback = function(Value)
+	setting2["Text Long"] = Value
+   end,
+})
+MiscTab:CreateButton({
+   Name = "Load Cofing",
+   Callback = function()
+    Rayfield:LoadConfiguration()
+   end,
+})
+local player = game:GetService("Players").LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local hum = char:WaitForChild("Humanoid")
+local root = char:WaitForChild("HumanoidRootPart")
+
+local UIS = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+
+local flyEnabled = false
+local flyspeed = 25
+local flyvel
+
+function updatefly()
+if flyEnabled then
+			flyvel = Instance.new("BodyVelocity")
+			flyvel.MaxForce = Vector3.new(1e6, 1e6, 1e6)
+			flyvel.Parent = root
+
+			hum.PlatformStand = true
+		else
+			if flyvel then flyvel:Destroy() end
+			hum.PlatformStand = false
+		end
+end
+RunService.RenderStepped:Connect(function()
+   if not player.Character then return end
+   char = player.Character
+   if not player.Character:FindFirstChild("Humanoid") then return end
+   if not player.Character:FindFirstChild("HumanoidRootPart") then return end
+	if not flyEnabled then hum.PlatformStand = false return end
+   hum = player.Character:FindFirstChild("Humanoid")
+   root = player.Character:FindFirstChild("HumanoidRootPart")
+   player.Character.Humanoid.PlatformStand = true
+   if not flyvel and flyvel.Parent ~= root then
+      flyvel = Instance.new("BodyVelocity")
+		flyvel.MaxForce = Vector3.new(1e6, 1e6, 1e6)
+		flyvel.Parent = root
+   end
+
+	local move = Vector3.new(0,0,0)
+
+	if UIS:IsKeyDown(Enum.KeyCode.W) then
+		move = move + (workspace.CurrentCamera.CFrame.LookVector)
+	end
+	if UIS:IsKeyDown(Enum.KeyCode.S) then
+		move = move - (workspace.CurrentCamera.CFrame.LookVector)
+	end
+	if UIS:IsKeyDown(Enum.KeyCode.A) then
+		move = move - (workspace.CurrentCamera.CFrame.RightVector)
+	end
+	if UIS:IsKeyDown(Enum.KeyCode.D) then
+		move = move + (workspace.CurrentCamera.CFrame.RightVector)
+	end
+	if UIS:IsKeyDown(Enum.KeyCode.E) then
+		move = move + Vector3.new(0,1,0)
+	end
+	if UIS:IsKeyDown(Enum.KeyCode.Q) then
+		move = move + Vector3.new(0,-1,0)
+	end
+
+	if flyvel then
+		flyvel.Velocity = move * flyspeed
+	end
+end)
+
+local FlyToggle = RageTab:CreateToggle({
+   Name = "Enabled Fly (Beta)",
+   CurrentValue = false,
+   Flag = "RageEnabledFly", 
+   Callback = function(Value)
+      flyEnabled = Value
+      updatefly()
+   end,
+})
+RageTab:CreateSlider({
+   Name = "Speed",
+   Range = {5, 250},
+   Increment = 0.5,
+   Suffix = "",
+   CurrentValue = 25,
+   Flag = "RageFlySpeed", 
+   Callback = function(Value)
+      flyspeed = Value
+   end,
+})
+BindsTab:CreateKeybind({
+   Name = "For Fly",
+   CurrentKeybind = "J",
+   HoldToInteract = false,
+   Flag = "BindForFly", 
+   Callback = function(Keybind)
+      FlyToggle:Set(not flyEnabled)
+   end,
+})
+BindsTab:CreateKeybind({
+   Name = "For ESP",
+   CurrentKeybind = "N",
+   HoldToInteract = false,
+   Flag = "BindForESP", 
+   Callback = function(Keybind)
+      ESPToggle:Set(not setting["Enabled"])
+   end,
+})
+BindsTab:CreateKeybind({
+   Name = "For Aimbot",
+   CurrentKeybind = "M",
+   HoldToInteract = false,
+   Flag = "BindForAimbot", 
+   Callback = function(Keybind)
+      AimbotToggle:Set(not ExunysDeveloperAimbot.Settings.Enabled)
+   end,
+})
+BindsTab:CreateKeybind({
+   Name = "For Crosshair",
+   CurrentKeybind = "H",
+   HoldToInteract = false,
+   Flag = "BindForCrosshair", 
+   Callback = function(Keybind)
+      CrosshairToggle:Set(not setting2["Enabled"])
+   end,
+})
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+local noclip = false
+
+RunService.Stepped:Connect(function()
+	if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+		for _, part in pairs(player.Character:GetDescendants()) do
+			if part:IsA("BasePart") or part:IsA("MeshPart") or part:IsA("Part") then
+				part.CanCollide = false
+			end
+		end
+      player.Character.HumanoidRootPart.CanCollide = not noclip
+	end
+end)
+local NoclipToggle = RageTab:CreateToggle({
+Name = "NoClip (Beta)",
+   CurrentValue = false,
+   Flag = "RageNoClip", 
+   Callback = function(Value)
+      noclip = Value
+   end,
+})
+BindsTab:CreateKeybind({
+   Name = "For NoClip",
+   CurrentKeybind = "K",
+   HoldToInteract = false,
+   Flag = "BindForNoClip", 
+   Callback = function(Keybind)
+      NoclipToggle:Set(not noclip)
+   end,
+})
+task.spawn(function()
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local realName = player.Name
+local realNameDisplay = player.DisplayName
+local lastchangerusernametext = realName
+local realNameLower = string.lower(realName)
+local realNameDisplayLower = string.lower(realNameDisplay)
+
+local textObjects = {}
+local humanoids = {}
+
+local function applyChange(originalText) if not changerusername or type(originalText) ~= "string" then return originalText end local lower = string.lower(originalText) local startPos, endPos = string.find(lower, realNameLower, 1, true) local output = originalText if startPos then output = string.sub(originalText, 1, startPos - 1) .. changerusernametext .. string.sub(originalText, endPos + 1) end local startPos2, endPos2 = string.find(string.lower(output), realNameDisplayLower, 1, true) if startPos2 then output = string.sub(output, 1, startPos2 - 1) .. changerusernametext .. string.sub(output, endPos2 + 1) end local startPos3, endPos3 = string.find(string.lower(output), string.lower(lastchangerusernametext), 1, true) if startPos3 then output = string.sub(output, 1, startPos3 - 1) .. changerusernametext .. string.sub(output, endPos3 + 1) end return output end
+
+local function updateAll()
+    for obj, original in pairs(textObjects) do
+        if obj.Parent then
+            textObjects[obj] = applyChange(original)
+            obj.Text = textObjects[obj]
+        else
+            textObjects[obj] = nil
+        end
+    end
+end
+
+local function hookTextObject(obj)
+    if textObjects[obj] then return end
+    textObjects[obj] = obj.Text
+    obj.Text = applyChange(textObjects[obj])
+
+    obj:GetPropertyChangedSignal("Text"):Connect(function()
+        if changerusername then
+         textObjects[obj] = applyChange(obj.Text)
+         obj.Text = textObjects[obj]
+        end
+    end)
+end
+
+local function scan(parent)
+    for _, v in ipairs(parent:GetDescendants()) do
+        if v:IsA("TextLabel") or v:IsA("TextButton") then
+            hookTextObject(v)
+        end
+    end
+end
+
+local function onCharacter(character)
+    local humanoid = character:WaitForChild("Humanoid", 3)
+    if humanoid then
+        humanoids[humanoid] = true
+    end
+
+    scan(character)
+
+    character.DescendantAdded:Connect(function(obj)
+        if obj:IsA("TextLabel") or obj:IsA("TextButton") then
+            hookTextObject(obj)
+        end
+    end)
+end
+
+local gui = player:WaitForChild("PlayerGui")
+
+scan(gui)
+
+gui.DescendantAdded:Connect(function(obj)
+    if obj:IsA("TextLabel") or obj:IsA("TextButton") then
+        hookTextObject(obj)
+    end
+end)
+
+if player.Character then
+    onCharacter(player.Character)
+end
+
+player.CharacterAdded:Connect(onCharacter)
+
+AutoTab:CreateToggle({
+   Name = "Replace Username (Early Beta)",
+   CurrentValue = false,
+   Flag = "AutoReplaceUsername",
+   Callback = function(Value)
+      changerusername = Value
+      if Value then
+         updateAll()
+      end
+   end,
+})
+
+AutoTab:CreateInput({
+   Name = "Replace",
+   CurrentValue = "Unknown_Player",
+   PlaceholderText = "Unknown_Player",
+   RemoveTextAfterFocusLost = false,
+   Flag = "AutoReplace",
+   Callback = function(Text)
+lastchangerusernametext = changerusernametext
+
+
+changerusernametext = Text
+
+
+updateAll()
+   end,
+})
+end)
+FriendsTab:CreateButton({
+   Name = "Load Friends File",
+   Callback = function()
+   loadfriendslist()
+    ExunysDeveloperAimbot.Blacklisted = {}
+   for _,friend in datafriends do
+   ExunysDeveloperAimbot.Blacklisted[#ExunysDeveloperAimbot.Blacklisted + 1] = friend
+   end
+   Rayfield:Notify({
+   Title = "Success!",
+   Content = "Load Friends File",
+   Duration = 4,
+   Image = "check",
+})
+   end,
+})
+FriendsTab:CreateSection("To add Friends go to workspace folder go to mencofing you see file name Rivalsfriendslist.txt")
+MiscTab:CreateDropdown({
+   Name = "Theme",
+   Options = {"Default","Amber Glow","Amethyst","Bloom","Dark Blue","Green","Light","Ocean","Serenity"},
+   CurrentOption = {"Default"},
+   MultipleOptions = false,
+   Flag = "MiscTheme", 
+   Callback = function(Options)
+      Window.ModifyTheme(string.gsub(Options[1], " ", ""))
+   end,
+})
+Rayfield:LoadConfiguration()
